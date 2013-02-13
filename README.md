@@ -15,12 +15,21 @@ class EnqueableMailer < ActionMailer::Base
   extend ActionMailer::Enqueable
 
   self.delivery_method = :test
+  self.queue = MailRenderingJob
 
   def welcome(user)
     recipients   'You'
     from         'Me'
 
     body "Email: Hello, #{user}"
+  end
+
+end
+
+class MailRenderingJob
+
+  def self.enqueue(deferred)
+    Resque.enqueue(deferred.encoded)
   end
 
 end
