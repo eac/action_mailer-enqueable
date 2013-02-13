@@ -31,6 +31,11 @@ class MailRenderingJob
   def self.enqueue(deferred)
     Resque.enqueue(deferred.encoded)
   end
+  
+  def self.work(params)
+    deferred = ActionMailer::Enqueable::Deferred.from_hash(params)
+    deferred.mailer.deliver!
+  end
 
 end
 ````
