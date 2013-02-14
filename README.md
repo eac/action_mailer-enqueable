@@ -14,7 +14,6 @@ Add this line to your application's Gemfile:
 class EnqueableMailer < ActionMailer::Base
   extend ActionMailer::Enqueable
 
-  self.delivery_method = :test
   self.queue = MailRenderingJob
 
   def welcome(user)
