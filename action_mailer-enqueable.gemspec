@@ -15,6 +15,8 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = ActionMailer::Enqueable::VERSION
 
-  gem.add_development_dependency 'activesupport', '2.3.16'
-  gem.add_development_dependency 'actionmailer',  '2.3.16'
+  gem.add_development_dependency 'activesupport'
+  gem.add_development_dependency 'actionmailer'
+  gem.add_development_dependency 'appraisal', '~> 0.5'
+  gem.add_development_dependency 'debugger'
 end
