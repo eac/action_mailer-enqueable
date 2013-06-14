@@ -47,7 +47,7 @@ class EnqueableTest < MiniTest::Unit::TestCase
 
     it 'delivers messages without attempting to enqueue' do
       mail = EnqueableMailer.deliver_welcome('Buddhy')
-      assert_equal 'Email: Hello, Buddhy', mail.body
+      assert_equal 'Email: Hello, Buddhy', mail.body.to_s
     end
 
   end

@@ -1,6 +1,7 @@
 #!/usr/bin/env rake
 #require 'rake'
 require 'rake/testtask'
+require 'appraisal'
 
 Rake::TestTask.new(:test) do |test|
   test.libs << 'test'
