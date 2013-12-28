@@ -3,25 +3,38 @@ require 'action_mailer/enqueable/deferred'
 require 'active_support/core_ext/class/attribute'
 
 module ActionMailer::Enqueable
+  class Proxy
+    attr_reader :mailer_class
 
-  def self.extended(base)
-    base.class_attribute :queue
-  end
+    def initialize(mailer_class, method_id, arguments)
+      @mailer_class = mailer_class
+      @method_id = method_id
+      @arguments = arguments
+    end
 
-  def method_missing(method_symbol, *parameters) #:nodoc:
-    if match = matches_dynamic_method?(method_symbol)
-      if queue && match[1] == 'deliver'
-        enqueue(match[2], parameters)
-      else
-        super
-      end
+    def deliver
+      deferred = Deferred.new(:mailer_name => @mailer_class.name, :method_id => @method_id.to_s, :arguments => @arguments)
+      @mailer_class.queue.enqueue(deferred)
+      deferred
+    end
+
+    def create
+      @mailer_class.send(:method_missing_without_proxy, @method_id, *@arguments)
     end
   end
 
-  def enqueue(method_id, arguments)
-    deferred = Deferred.new(:mailer_name => name, :method_id => method_id, :arguments => arguments)
-    queue.enqueue(deferred)
-    deferred
-  end
+  def self.extended(base)
+    base.class_attribute :queue
+    class << base
+      alias_method :method_missing_without_proxy, :method_missing
 
+      def method_missing(name, *args, &block)
+        if queue
+          Proxy.new(self, name, args)
+        else
+          super
+        end
+      end
+    end
+  end
 end
