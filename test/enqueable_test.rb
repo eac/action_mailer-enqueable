@@ -10,10 +10,11 @@ class EnqueableTest < MiniTest::Unit::TestCase
     self.delivery_method = :test
 
     def welcome(user)
-      recipients   'You'
-      from         'Me'
-
-      body "Email: Hello, #{user}"
+      mail(
+        :to => 'You',
+        :from => 'Me',
+        :body => "Email: Hello, #{user}"
+      )
     end
 
   end
@@ -29,13 +30,19 @@ class EnqueableTest < MiniTest::Unit::TestCase
     end
 
     it 'enqueues messages instead of deliverying them' do
-      deferred = EnqueableMailer.deliver_welcome('Buddhy')
+      deferred = EnqueableMailer.welcome('Buddhy').deliver
+
       assert_equal EnqueableMailer, deferred.mailer_class
       assert_equal 'welcome',       deferred.method_id
       assert_equal [ 'Buddhy' ],    deferred.arguments
 
       deferred = ActionMailer::Enqueable::Deferred.new(:mailer_name => 'EnqueableTest::EnqueableMailer', :method_id => 'welcome', :arguments => [ 'Buddhy' ] )
       assert_equal [ deferred ], @queue
+    end
+
+    it 'returns a proxy that turns into a mail on create' do
+      mail = EnqueableMailer.welcome('Buddhy').create
+      assert_equal ["You"], mail.to
     end
 
   end
@@ -46,7 +53,7 @@ class EnqueableTest < MiniTest::Unit::TestCase
     end
 
     it 'delivers messages without attempting to enqueue' do
-      mail = EnqueableMailer.deliver_welcome('Buddhy')
+      mail = EnqueableMailer.welcome('Buddhy').deliver
       assert_equal 'Email: Hello, Buddhy', mail.body.to_s
     end
 

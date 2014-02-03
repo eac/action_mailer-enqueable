@@ -27,13 +27,8 @@ module ActionMailer::Enqueable
       @params.symbolize_keys!
     end
 
-    # ActionMailer does some bizzare stuff with #new.
-    def mailer
-      @mailer ||= begin
-                    mailer = mailer_class.allocate
-                    mailer.send(:initialize, method_id, *arguments)
-                    mailer
-                  end
+    def mail
+      @mailer ||= mailer_class.send(method_id, *arguments).create
     end
 
     def mailer_class

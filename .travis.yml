@@ -1,3 +1,2 @@
 gemfile:
-  - gemfiles/actionmailer_2.3.gemfile
-  - gemfiles/actionmailer_3.0.gemfile
+  - gemfiles/actionmailer_3.2.gemfile
