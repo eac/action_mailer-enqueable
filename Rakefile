@@ -1,5 +1,6 @@
 require 'bundler/setup'
 require 'rake/testtask'
+require 'bump/tasks'
 require 'appraisal'
 
 Rake::TestTask.new(:test) do |test|

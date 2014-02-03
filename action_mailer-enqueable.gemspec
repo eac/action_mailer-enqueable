@@ -16,4 +16,5 @@ Gem::Specification.new "action_mailer-enqueable", ActionMailer::Enqueable::VERSI
   gem.add_development_dependency 'debugger'
   gem.add_development_dependency 'minitest'
   gem.add_development_dependency 'minitest-rg'
+  gem.add_development_dependency 'bump'
 end
