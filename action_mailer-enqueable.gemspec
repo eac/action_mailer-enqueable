@@ -14,4 +14,6 @@ Gem::Specification.new "action_mailer-enqueable", ActionMailer::Enqueable::VERSI
   gem.add_development_dependency 'actionmailer'
   gem.add_development_dependency 'appraisal', '~> 0.5'
   gem.add_development_dependency 'debugger'
+  gem.add_development_dependency 'minitest'
+  gem.add_development_dependency 'minitest-rg'
 end

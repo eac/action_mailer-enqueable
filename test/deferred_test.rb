@@ -6,7 +6,7 @@ module ActiveRecord
   end
 end
 
-class DeferredTest < MiniTest::Unit::TestCase
+class DeferredTest < Minitest::Test
 
   class User < ActiveRecord::Base
 

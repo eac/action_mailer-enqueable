@@ -2,7 +2,7 @@ require_relative 'helper'
 require 'action_mailer'
 require 'action_mailer/enqueable'
 
-class EnqueableTest < MiniTest::Unit::TestCase
+class EnqueableTest < Minitest::Test
 
   class EnqueableMailer < ActionMailer::Base
     extend ActionMailer::Enqueable
